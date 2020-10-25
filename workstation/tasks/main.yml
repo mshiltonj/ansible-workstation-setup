@@ -1,0 +1,86 @@
+---
+# tasks file for workstatation
+- name: Update/upgrade
+  apt: update_cache=yes upgrade=yes
+
+- name: Uninstall vim-tiny
+  apt:
+    name: vim-tiny
+    state: absent
+
+- name: Install base packages
+  apt:
+    name:
+      - ubuntu-gnome-desktop
+      - vim
+      - curl
+      - wget
+      - gcc
+      - make
+      - perl
+      - build-essential
+      - software-properties-common
+      - gimp
+      - apt-transport-https
+      - ca-certificates
+      - gnupg-agent
+      - ubuntu-desktop
+
+- name: Add GIT PPA Repo
+  apt_repository:
+    update_cache: true
+    repo: ppa:git-core/ppa
+  tags:
+    - git
+
+- name: Update/upgrade (to get latest git)
+  apt: update_cache=yes upgrade=yes
+  tags:
+    - git
+
+- name: Add Google Repository Key
+  apt_key:
+    url: https://dl.google.com/linux/linux_signing_key.pub
+
+- name: Add Google Repository
+  apt_repository:
+    update_cache: true
+    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+
+- name: Install Google Chrome
+  apt:
+    name: google-chrome-stable
+
+- name: Add Docker Repository Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg 
+
+- name: Add Docker Repository
+  apt_repository:
+    update_cache: true
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+  tags:
+    - only
+
+- name: Install docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+- name: Install docker compose
+  command: sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
+  args:
+    creates: /usr/local/bin/docker-compose
+
+- name: Set docker compose executable
+  file:
+    path: /usr/local/bin/docker-compose
+    mode: 0755
+
+- name: Install vscode
+  community.general.snap:
+    name: code
+    classic: yes
+

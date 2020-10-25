@@ -1,0 +1,16 @@
+---
+# tasks file for primary-user
+- name: Assert input variable are defined
+  assert:
+    that:
+      - user is defined
+
+- name: Add primary user
+  become: true
+  user:
+    name: "{{user}}"
+    shell: /bin/bash
+    groups: sudo,docker
+    append: yes
+    generate_ssh_key: true
+
