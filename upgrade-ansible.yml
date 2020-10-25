@@ -1,0 +1,15 @@
+---
+- name: Setup latest ansible
+  hosts: localhost
+  become: true
+  roles:
+    - upgrade-ansible
+
+
+- name: Install community.general
+  hosts: localhost
+  become: false
+  tasks:
+    - name: Add the community.general plugin for current user
+      shell:
+        cmd: "ansible-galaxy collection install community.general"

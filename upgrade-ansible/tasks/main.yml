@@ -1,0 +1,18 @@
+---
+# tasks file for upgrade-ansible
+
+#ansible-galaxy collection install community.general
+- name: Add Ansible PPA Repo
+  apt_repository:
+    update_cache: true
+    repo: ppa:ansible/ansible
+  tags:
+    - ansbile
+
+- name: Update/upgrade (to get latest ansible)
+  apt: update_cache=yes upgrade=yes
+  tags:
+    - git
+
+
+
