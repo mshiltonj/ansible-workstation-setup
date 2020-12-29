@@ -1,4 +1,4 @@
-- name: Setup workstation
+- name: Setup Primary User
   hosts: localhost
   become: true
   roles:

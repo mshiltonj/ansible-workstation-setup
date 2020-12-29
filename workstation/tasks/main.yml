@@ -24,6 +24,7 @@
       - apt-transport-https
       - ca-certificates
       - gnupg-agent
+      - gnupg2
       - ubuntu-desktop
 
 - name: Add GIT PPA Repo
